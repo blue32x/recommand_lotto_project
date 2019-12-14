@@ -1,7 +1,6 @@
 package com.recommand.lotto.selfmaker.manager
 
 import com.recommand.lotto.selfmaker.common.jsonToObject
-import com.recommand.lotto.selfmaker.common.logger
 import com.recommand.lotto.selfmaker.manager.dto.lotto.LottoResponse
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -22,9 +21,6 @@ class LottoManager:ManagerInterface<LottoResponse> {
             .addHeader("User-Agent", "SelfMaker")
             .build()
         val response=  httpClient.newCall(request).execute()
-        logger.info{"get response"}
-
-//        println(response.body?.string())
         val obj =jsonToObject<LottoResponse>(response.body?.string()!!)
         return obj
     }

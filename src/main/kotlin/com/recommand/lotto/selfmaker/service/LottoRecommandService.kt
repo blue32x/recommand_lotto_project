@@ -36,14 +36,19 @@ class LottoRecommandService(
             }
         }
         else {
+            logger.info{"초기화를 시작합니다."}
             for (i in 1..recent) {
                 val queryParam = makeParam(i.toString())
                 val response = lottoManager.get(apiUrl, queryParam)
-                logger.info { response }
+              //  logger.info { response }
                 val line = "${response.drwtNo1},${response.drwtNo2},${response.drwtNo3},${response.drwtNo4},${response.drwtNo5},${response.drwtNo6},${response.bnusNo}\n"
                 file.appendText(line)
                 response.toMap()
                 Thread.sleep(300)
+                val initRate = Math.ceil((i.toDouble()/recent.toDouble())*100)
+                when(initRate){
+                    10.0,20.0,30.0,40.0,50.0,60.0,70.0,80.0,90.0,100.0 ->logger.info{"초기화 중입니다! 잠시 기다려주세요. ${initRate}%"}
+                }
             }
         }
 
@@ -68,7 +73,7 @@ class LottoRecommandService(
 
         for(idx in 1..count){
             val set = mutableSetOf<Int>()
-            var cnt=7
+            var cnt=6
             while(cnt >0){
                 var arrayIndex = Random.nextInt(numbers.size)//random으로 대상 추출
                 arrayIndex = if(arrayIndex!=0) arrayIndex-1 else arrayIndex
@@ -89,8 +94,8 @@ class LottoRecommandService(
                 row3=setToList[2],
                 row4=setToList[3],
                 row5=setToList[4],
-                row6=setToList[5],
-                bonus=setToList[6]))
+                row6=setToList[5]
+                ))
             lottoSetList.add(set)
         }
      return RecommandedLottoNumber(count.toLong(),responseSubList)

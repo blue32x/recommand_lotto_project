@@ -6,6 +6,5 @@ data class RecommandedLottoNumberSub(
     val row3:Int,
     val row4:Int,
     val row5:Int,
-    val row6:Int,
-    val bonus:Int
+    val row6:Int
 )
